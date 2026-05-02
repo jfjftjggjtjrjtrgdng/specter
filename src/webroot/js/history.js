@@ -1,6 +1,6 @@
 import { escapeHtml } from './utils.js';
 
-const STORAGE_KEY = 'yurikey_script_history';
+const STORAGE_KEY = 'specter_script_history';
 const MAX_ENTRIES = 240;
 
 export function getHistory() {

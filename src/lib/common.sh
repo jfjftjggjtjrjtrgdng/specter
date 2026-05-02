@@ -93,8 +93,8 @@ run_device_info() {
     [ -f "$_rdi_root/webroot/common/device-info.sh" ] && sh "$_rdi_root/webroot/common/device-info.sh" && return 0
   done
   for _rdi_p in \
-    "/data/adb/modules_update/Yurikey/webroot/common/device-info.sh" \
-    "/data/adb/modules/yurikey/webroot/common/device-info.sh"; do
+    "/data/adb/modules_update/Specter/webroot/common/device-info.sh" \
+    "/data/adb/modules/Specter/webroot/common/device-info.sh"; do
     [ -f "$_rdi_p" ] && sh "$_rdi_p" && return 0
   done
   return 1

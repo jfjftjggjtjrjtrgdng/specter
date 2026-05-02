@@ -11,6 +11,6 @@ sh "$MODDIR/orchestrator.sh" full_integrity || return $?
 
 run_device_info "$MODDIR"
 
-log "ACTION" "Meets Strong Integrity with Yurikey Manager"
+log "ACTION" "Meets Strong Integrity with Specter"
 
 [ "${0##*/}" = "action.sh" ] && exit 0 || return 0

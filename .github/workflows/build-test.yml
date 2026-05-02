@@ -22,7 +22,7 @@ jobs:
           test -f Module/webroot/json/module_paths.json
       - name: Check no hardcoded paths
         run: |
-          ! grep -rn "/data/adb/modules/Yurikey" Module/lib/ Module/features/ --include="*.sh"
+          ! grep -rn "/data/adb/modules/Specter" Module/lib/ Module/features/ --include="*.sh"
       - name: Check no su -c in features
         run: |
           ! grep -rn "su -c" Module/features/ --include="*.sh"

@@ -21,7 +21,7 @@ export async function loadContributors() {
            src="${dev.avatar || ''}"
            alt="${escapeHtml(dev.name)}"
            loading="lazy"
-           onerror="this.src='assets/yurikey.png'" />
+           onerror="this.src='assets/icon.png'" />
       <p class="md-typescale-label-large contributor-name">
         ${escapeHtml(dev.name)}
       </p>

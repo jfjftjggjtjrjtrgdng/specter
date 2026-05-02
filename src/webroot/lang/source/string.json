@@ -1,5 +1,5 @@
 {
-  "app_title": "Yurikey Manager",
+  "app_title": "Specter",
 
   "nav_home": "Home",
   "nav_menu": "Actions",
@@ -82,7 +82,7 @@
   "clock_format_12h": "12-hour (AM/PM)",
 
   "update_title": "Update & Support",
-  "update_desc": "Stay up to date with the latest Yurikey releases and bug fixes.",
+  "update_desc": "Stay up to date with the latest Specter releases and bug fixes.",
   "update_github": "View on GitHub",
   "update_telegram": "Join Telegram",
   "update_note": "Join Telegram or check GitHub for contributions and technical discussions.",

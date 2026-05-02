@@ -1,9 +1,4 @@
-***✨ v3.0.5 – Version Changes:***
+# Specter Changelog
 
--> perf(pif): Enhance pif detection
-
--> Update language string
-
--> Various performance improvement
-
-→ [All changes](https://github.com/YurikeyDev/yurikey/compare/v3.0.4...main).
+## v1.0.0
+- Initial release

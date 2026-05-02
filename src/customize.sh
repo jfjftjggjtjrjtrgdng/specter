@@ -4,25 +4,15 @@
 
 ui_print ""
 ui_print "*********************************"
-ui_print "*****Yuri Keybox Installer*******"
+ui_print "*****Specter Installer*******"
 ui_print "*********************************"
 ui_print ""
-
-if [ -d "/data/adb/modules/yurikey" ]; then
-  touch /data/adb/modules/yurikey/remove
-  ui_print "- Removed outdated module (lowercase 'yurikey')"
-fi
 
 if [ ! -d "/data/adb/modules/tricky_store" ] && [ ! -d "/data/adb/modules_update/tricky_store" ]; then
   ui_print "- Error: Tricky Store dependency is not installed"
   ui_print "- Please install Tricky Store first."
   ui_print "- After installing Tricky Store, install the keybox from the action button or WebUI."
   return 0
-fi
-
-if [ -d "/data/adb/Yurikey/bin" ]; then
-  rm -rf /data/adb/Yurikey/bin
-  ui_print "- Cleaned up old binary directory"
 fi
 
 DECODE_FILE="$TRICKY_DIR/keybox_decode"
@@ -48,8 +38,8 @@ if check_network; then
                   rm -f "$TEMP_FILE" "$DECODE_FILE"
               else
                   if ! grep -q "yuriiroot" "$TARGET_FILE" 2>/dev/null; then
-                      ui_print "- Previous keybox was not installed by Yuri Keybox."
-                      ui_print "- Creating a backup keybox..."
+                    ui_print "- Previous keybox was not installed by this module."
+                    ui_print "- Creating a backup keybox..."
                       cp "$TARGET_FILE" "$BACKUP_FILE"
                   fi
                   mv "$DECODE_FILE" "$TARGET_FILE"
@@ -75,16 +65,6 @@ cat > "$MODPATH/webroot/json/module_paths.json" <<JSON
 {"MODDIR": "$RUNTIME_DIR"}
 JSON
 unset RUNTIME_DIR
-
-# Clean up v3 files from live module path
-if [ -d "/data/adb/modules/Yurikey" ]; then
-  if [ -d "/data/adb/modules/Yurikey/Yuri" ] || [ -f "/data/adb/modules/Yurikey/webroot/common/clear_all_detection_traces.sh" ] || [ -f "/data/adb/modules/Yurikey/webroot/common/widevinel1.sh" ] || [ -f "/data/adb/modules/Yurikey/webroot/common/lsposed2.sh" ] || [ -f "/data/adb/modules/Yurikey/webroot/common/boot_hash.sh" ]; then
-    ui_print "- Detected outdated files from YuriKey v3"
-    ui_print "- Cleaning up obsolete files..."
-  fi
-  rm -rf /data/adb/modules/Yurikey 2>/dev/null
-  ui_print "- Removed old YuriKey v3 module directory"
-fi
 
 run_device_info "$TMPDIR" "$MODPATH"
 

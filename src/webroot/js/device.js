@@ -125,7 +125,7 @@ function applyKeyboxStatus(data) {
   statusEl.style.display = '';
 
   if (data.by_yuri) {
-    const label = data.yuri_version ? `Yuri Keybox v${data.yuri_version}` : 'Yuri Keybox';
+    const label = data.yuri_version ? `Keybox v${data.yuri_version}` : 'Keybox';
     if (data.up_to_date) {
       source.textContent = label + ' \u00B7 Latest';
       source.className = 'keybox-chip keybox-chip--yuri';

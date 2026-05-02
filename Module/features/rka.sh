@@ -16,7 +16,7 @@ fi
 
 CFG="/data/user/$(id -u)/${MOD}/files/rka_configs.json"
 
-RKA_NAME="Yuri RKA"
+RKA_NAME="Specter RKA"
 RKA_UDP=0
 
 prev_id=""
