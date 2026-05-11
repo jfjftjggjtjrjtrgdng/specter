@@ -7,6 +7,8 @@ MODDIR=${0%/*}
 . "$MODDIR/../lib/config_env.sh"
 [ "$(cfg_get toggle_target 1)" = "0" ] && exit 0
 
+[ -f "/data/adb/Specter/target_applied" ] && { log "TARGET" "Interactive App Targeting used — skipping auto generation"; exit 0; }
+
 log "TARGET" "Start"
 
 [ -d "$TRICKY_DIR" ] || die "Tricky Store data directory not found"

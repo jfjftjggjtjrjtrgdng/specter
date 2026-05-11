@@ -199,6 +199,33 @@
   "history_copied": "Copied!",
   "history_copy_failed": "Failed",
 
+  "menu_target_apps_title": "App Targeting",
+  "menu_target_apps": "App Targeting",
+  "menu_target_apps_desc": "Manage per-app targeting states interactively",
+
+  "ta_title": "App Targeting",
+  "ta_search_placeholder": "Search apps",
+  "ta_filter_all": "All",
+  "ta_filter_selected": "Selected",
+  "ta_filter_not_selected": "Not Selected",
+  "ta_select_all": "Select All",
+  "ta_deselect_all": "Deselect All",
+  "ta_import_denylist": "Import from DenyList",
+  "ta_apply": "Apply",
+  "ta_loading": "Loading apps...",
+  "ta_no_results": "No apps match your filter",
+  "ta_load_error": "Failed to load apps",
+
+  "ta_prompt_saved": "Target list saved",
+  "ta_prompt_error": "Failed to save target list",
+  "ta_prompt_denylist_failed": "Failed to read DenyList",
+  "ta_prompt_denylist_imported": "DenyList apps selected",
+
+  "ta_state_unchecked": "Not in target list",
+  "ta_state_bare": "In target list",
+  "ta_state_conditional": "Conditional (?)",
+  "ta_state_force": "Force (!)",
+
   "file_browser_empty": "No XML files found",
   "file_browser_show_all": "Show all files",
   "conflict_toast_module_handles": "Module handles it",

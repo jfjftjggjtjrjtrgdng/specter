@@ -1,9 +1,138 @@
+const MOCK_TARGET_TXT = [
+  'com.example.one',
+  'com.example.two!',
+  'com.example.three?',
+].join('\n') + '\n';
+
+const MOCK_USER_PKGS = [
+  'com.example.one',
+  'com.example.two',
+  'com.example.three',
+  'com.example.four',
+  'com.example.five',
+  'com.example.six',
+  'com.google.android.apps.photos',
+  'com.google.android.youtube',
+  'com.google.android.apps.maps',
+  'com.google.android.apps.docs',
+  'com.google.android.apps.gmail',
+  'com.spotify.music',
+  'com.twitter.android',
+  'com.instagram.android',
+  'com.facebook.katana',
+  'com.snapchat.android',
+  'com.discord',
+  'com.slack',
+  'com.microsoft.teams',
+  'com.android.chrome',
+  'org.mozilla.firefox',
+  'com.opera.browser',
+  'com.termux',
+  'io.github.vvb2060.mahoshojo',
+  'io.github.vvb2060.keyattestation',
+  'com.topjohnwu.magisk',
+  'com.dergoogler.mmrl',
+  'com.dergoogler.mmrl.wx',
+  'io.github.a13e300.ksuwebui',
+  'com.henrikherzig.playintegritychecker',
+  'com.reveny.nativecheck',
+  'com.scottyab.rootbeer',
+  'com.zhenxi.hunter',
+  'com.byxiaorun.detector',
+].join('\n') + '\n';
+
+const MOCK_SYSTEM_PKGS = [
+  'com.google.android.gms',
+  'com.google.android.gsf',
+  'com.android.vending',
+  'com.google.android.gm',
+  'com.android.systemui',
+  'com.android.phone',
+  'com.android.settings',
+  'com.android.launcher3',
+  'com.google.android.inputmethod.latin',
+  'com.android.chrome',
+].join('\n') + '\n';
+
+const MOCK_DENYLIST = [
+  'com.example.one',
+  'com.topjohnwu.magisk',
+  'com.scottyab.rootbeer',
+].join('\n') + '\n';
+
+const MOCK_APP_CATALOG: Record<string, string> = {
+  'com.example.one': 'Example One',
+  'com.example.two': 'Example Two',
+  'com.example.three': 'Example Three',
+  'com.example.four': 'Example Four',
+  'com.example.five': 'Example Five',
+  'com.example.six': 'Example Six',
+  'com.google.android.apps.photos': 'Google Photos',
+  'com.google.android.youtube': 'YouTube',
+  'com.google.android.apps.maps': 'Google Maps',
+  'com.google.android.apps.docs': 'Google Docs',
+  'com.google.android.apps.gmail': 'Gmail',
+  'com.spotify.music': 'Spotify',
+  'com.twitter.android': 'Twitter',
+  'com.instagram.android': 'Instagram',
+  'com.facebook.katana': 'Facebook',
+  'com.snapchat.android': 'Snapchat',
+  'com.discord': 'Discord',
+  'com.slack': 'Slack',
+  'com.microsoft.teams': 'Microsoft Teams',
+  'com.android.chrome': 'Chrome',
+  'org.mozilla.firefox': 'Firefox',
+  'com.opera.browser': 'Opera Browser',
+  'com.termux': 'Termux',
+  'io.github.vvb2060.mahoshojo': 'Maho Shojo',
+  'io.github.vvb2060.keyattestation': 'Key Attestation',
+  'com.topjohnwu.magisk': 'Magisk',
+  'com.dergoogler.mmrl': 'MMRL',
+  'com.dergoogler.mmrl.wx': 'MMRL WX',
+  'io.github.a13e300.ksuwebui': 'KSU WebUI',
+  'com.henrikherzig.playintegritychecker': 'Play Integrity Checker',
+  'com.reveny.nativecheck': 'Native Check',
+  'com.scottyab.rootbeer': 'Root Beer',
+  'com.zhenxi.hunter': 'Hunter',
+  'com.byxiaorun.detector': 'Detector',
+  'com.google.android.gms': 'Google Play Services',
+  'com.google.android.gsf': 'Google Services Framework',
+  'com.android.vending': 'Google Play Store',
+  'com.android.systemui': 'System UI',
+  'com.android.phone': 'Phone',
+  'com.android.settings': 'Settings',
+  'com.android.launcher3': 'Launcher',
+  'com.google.android.inputmethod.latin': 'Gboard',
+};
+
+const APP_LABELS_CACHE_PATH = '/data/adb/Specter/app_labels.json';
+
 if (typeof window.ksu === 'undefined') {
   const ksuMock = {
     exec(cmd: string, opts: string, cbName: string) {
       setTimeout(() => {
         const cb = window[cbName] as ((...args: any[]) => void) | undefined;
-        if (typeof cb === 'function') cb(0, '', '');
+        if (typeof cb !== 'function') return;
+
+        if (cmd.includes('target.txt')) {
+          cb(0, MOCK_TARGET_TXT, '');
+        } else if (cmd.includes('pm list packages -3')) {
+          cb(0, MOCK_USER_PKGS, '');
+        } else if (cmd.includes('pm list packages -s')) {
+          cb(0, MOCK_SYSTEM_PKGS, '');
+        } else if (cmd.includes('system_app')) {
+          cb(0, 'com.google.android.gms\ncom.android.vending\n', '');
+        } else if (cmd.includes('magisk --denylist ls')) {
+          cb(0, MOCK_DENYLIST, '');
+        } else if (cmd.includes(APP_LABELS_CACHE_PATH)) {
+          cb(0, '', '');
+        } else if (cmd.includes('mkdir')) {
+          cb(0, '', '');
+        } else if (cmd.includes('cat >')) {
+          cb(0, '', '');
+        } else {
+          cb(0, '', '');
+        }
       }, 50);
     },
     spawn(cmd: string, argsJson: string, opts: string, spName: string) {
@@ -32,7 +161,7 @@ if (typeof window.ksu === 'undefined') {
         if (!r.ok || !ct.includes('json')) throw new Error('not found');
         return r;
       }).catch(() =>
-        Promise.resolve(new Response(JSON.stringify({ MODDIR: '/data/adb/modules/Yurikey' }), {
+        Promise.resolve(new Response(JSON.stringify({ MODDIR: '/data/adb/modules/Specter' }), {
           status: 200, headers: { 'Content-Type': 'application/json' },
         }))
       );
@@ -42,6 +171,12 @@ if (typeof window.ksu === 'undefined') {
       return Promise.resolve(new Response(JSON.stringify({
         android: '14', kernel: '6.1.0', root: 'KernelSU',
       }), { status: 200, headers: { 'Content-Type': 'application/json' } }));
+    }
+
+    if (u.includes('rawbin.netlify.app/apps/catalog')) {
+      return Promise.resolve(new Response(JSON.stringify(MOCK_APP_CATALOG), {
+        status: 200, headers: { 'Content-Type': 'application/json' },
+      }));
     }
 
     return origFetch(u, ...rest);

@@ -141,23 +141,10 @@ export async function loadBlacklistContent(): Promise<string> {
   } catch (e) { console.warn('Failed to load blacklist:', e); return ''; }
 }
 
-export async function loadSmartmergeContent(): Promise<string> {
-  try {
-    const result = await exec('cat /sdcard/Specter/customize.txt 2>/dev/null || echo ""');
-    return (result as any).stdout || '';
-  } catch (e) { console.warn('Failed to load smartmerge:', e); return ''; }
-}
-
 export async function saveBlacklistContent(content: string) {
   const result = await exec(`printf '%s' ${shellEscape(content)} | base64 -w0`);
   const b64 = (result as any).stdout || '';
   await exec(`mkdir -p /data/adb/Specter && printf '%s' "${b64}" | base64 -d > /data/adb/Specter/blacklist.txt`);
-}
-
-export async function saveSmartmergeContent(content: string) {
-  const result = await exec(`printf '%s' ${shellEscape(content)} | base64 -w0`);
-  const b64 = (result as any).stdout || '';
-  await exec(`mkdir -p /sdcard/Specter && printf '%s' "${b64}" | base64 -d > /sdcard/Specter/customize.txt`);
 }
 
 interface ConflictModule {

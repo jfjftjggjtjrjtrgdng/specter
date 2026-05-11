@@ -1,7 +1,7 @@
 import './material.js';
 import { initBridge, spawnScript, exec, getModuleDir as getBridgeModuleDir } from './bridge.js';
 import { setModuleDir, migrateLocalStorage, cfgGet, cfgSet, cfgFlush, cfgInvalidate } from './cfg.js';
-import { initDevice, refreshDevice, refreshKeyboxStatus, loadBlacklistContent, saveBlacklistContent, loadSmartmergeContent, saveSmartmergeContent, refreshConflictStatus } from './device.js';
+import { initDevice, refreshDevice, refreshKeyboxStatus, loadBlacklistContent, saveBlacklistContent, refreshConflictStatus } from './device.js';
 import { initNetwork } from './network.js';
 import { initTheme } from './theme.js';
 import { initI18n, getTranslation } from './i18n.js';
@@ -12,6 +12,7 @@ import { openRecentActivity, addEntry } from './history.js';
 import { showToast, closeToast } from './toast.js';
 import { initTerminal, appendToOutput } from './terminal.js';
 import { openFileBrowser } from './file-browser.js';
+import { openTargetAppsManager } from './target-apps.js';
 import { showErrorDialog } from './dialog.js';
 import { setFriendlyNames, getFriendlyName } from './state.js';
 import { API_URLS } from './constants.js';
@@ -74,7 +75,7 @@ document.addEventListener('DOMContentLoaded', async () => {
   await Promise.all([initNetwork(), populateProviders(), loadContributors()]).catch(err => console.warn('Init error:', err));
   await initDevice();
   wireBlacklistToggle();
-  wireSmartmergeEditor();
+  wireTargetApps();
   wireToggles();
   wireControlToggles();
   wireConflictToggles();
@@ -687,30 +688,10 @@ function wireBlacklistToggle() {
   }
 }
 
-function wireSmartmergeEditor() {
-  const row = document.getElementById('smartmerge-row');
-  const editor = document.getElementById('smartmerge-editor');
-  const input = document.getElementById('smartmerge-input') as any;
-  const saveBtn = document.getElementById('smartmerge-save-btn');
-  if (!row || !editor) return;
-
-  row.addEventListener('click', async () => {
-    const isVisible = editor.style.display !== 'none';
-    if (!isVisible) {
-      if (input) input.value = await loadSmartmergeContent();
-      editor.style.display = 'block';
-    } else {
-      editor.style.display = 'none';
-    }
-  });
-
-  if (saveBtn && input) {
-    saveBtn.addEventListener('click', async () => {
-      await saveSmartmergeContent(input.value);
-      showToast(t('toast_smartmerge_saved', 'SmartMerge saved'), { icon: 'check_circle', type: 'success' as any, autoCloseDelay: 2000 });
-      editor.style.display = 'none';
-    });
-  }
+function wireTargetApps() {
+  const btn = document.getElementById('target-apps-btn');
+  if (!btn) return;
+  btn.addEventListener('click', openTargetAppsManager);
 }
 
 function wireToggles() {
